@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#16a34a">
+  <meta name="description" content="Smart Waste Classifier membantu mengenali material sampah dan memberi panduan pemilahan yang aman.">
+  <title>Smart Waste Classifier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/storage.js" defer></script>
+  <script src="js/classification.js" defer></script>
+  <script src="js/camera.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#scan" aria-label="Smart Waste Classifier beranda">
+        <span class="brand-mark" aria-hidden="true">♻</span>
+        <span><strong>Smart Waste</strong><small>CLASSIFIER</small></span>
+      </a>
+      <button class="icon-button" id="themeToggle" aria-label="Aktifkan atau nonaktifkan mode gelap" title="Ganti tema">◐</button>
+    </header>
+
+    <main id="mainContent">
+      <section class="screen active" id="screen-scan" data-screen="scan">
+        <div class="hero-copy">
+          <p class="eyebrow">PILAH DENGAN BIJAK</p>
+          <h1>Halo, siap memilah<br><span>sampah hari ini?</span></h1>
+          <p class="muted">Kenali material, temukan warna tempat sampah, dan pelajari cara menyiapkannya.</p>
+        </div>
+
+        <div class="scan-card">
+          <div class="scan-art" aria-hidden="true">
+            <div class="scan-ring ring-one"></div><div class="scan-ring ring-two"></div>
+            <div class="scan-bin">♻</div>
+            <span class="floating-leaf leaf-a">✦</span><span class="floating-leaf leaf-b">✧</span>
+          </div>
+          <h2>Mulai dari satu benda</h2>
+          <p>Ambil foto satu objek agar hasil panduan lebih mudah diperiksa.</p>
+          <div class="button-stack">
+            <button class="button primary" id="openCameraBtn"><span>▣</span> Pindai dengan Kamera</button>
+            <label class="button secondary file-button" for="galleryInput"><span>▧</span> Pilih dari Galeri</label>
+            <input id="galleryInput" type="file" accept="image/*" hidden>
+          </div>
+          <p class="small-note">MVP ini memakai klasifikasi berbasis aturan dan simulasi lokal, bukan model AI sungguhan.</p>
+        </div>
+
+        <div class="section-heading"><div><p class="eyebrow">PANDUAN CEPAT</p><h2>Kenali warna tempat sampah</h2></div></div>
+        <div class="bin-guide compact">
+          <article class="bin-chip"><span class="bin-dot green"></span><div><strong>Hijau</strong><small>Organik</small></div></article>
+          <article class="bin-chip"><span class="bin-dot blue"></span><div><strong>Biru</strong><small>Kertas & kardus</small></div></article>
+          <article class="bin-chip"><span class="bin-dot yellow"></span><div><strong>Kuning</strong><small>Plastik, kaca, logam</small></div></article>
+          <article class="bin-chip"><span class="bin-dot red"></span><div><strong>Merah</strong><small>Limbah berbahaya</small></div></article>
+          <article class="bin-chip"><span class="bin-dot grey"></span><div><strong>Abu-abu</strong><small>Residu / campuran</small></div></article>
+        </div>
+        <div class="tip-card"><span class="tip-icon">✦</span><div><strong>Tip hari ini</strong><p>Pastikan kemasan kosong dan kering bila aman dilakukan. Ikuti aturan pengelolaan sampah di daerahmu.</p></div></div>
+      </section>
+
+      <section class="screen" id="screen-history" data-screen="history">
+        <div class="page-heading"><p class="eyebrow">JEJAK PEMILAHAN</p><h1>Riwayat pindai</h1><p class="muted">Hasil yang kamu simpan tersedia di perangkat ini.</p></div>
+        <div class="filter-row">
+          <label class="sr-only" for="historyCategory">Filter kategori</label>
+          <select id="historyCategory"><option value="all">Semua kategori</option></select>
+          <label class="sr-only" for="historyBin">Filter warna</label>
+          <select id="historyBin"><option value="all">Semua warna</option><option>Green</option><option>Blue</option><option>Yellow</option><option>Red</option><option>Grey</option></select>
+        </div>
+        <div id="historyList" class="history-list"></div>
+      </section>
+
+      <section class="screen" id="screen-explore" data-screen="explore">
+        <div class="page-heading"><p class="eyebrow">BELAJAR MEMILAH</p><h1>Jelajahi panduan</h1><p class="muted">Panduan ringkas untuk mengurangi kesalahan saat memilah.</p></div>
+        <div class="explore-grid">
+          <article class="explore-card"><span class="explore-icon green-bg">♻</span><h3>Pilah berdasarkan material</h3><p>Periksa material utama, bukan hanya bentuk atau warna benda. Kemasan berlapis dapat memerlukan penanganan khusus.</p></article>
+          <article class="explore-card"><span class="explore-icon blue-bg">▤</span><h3>Kertas dan kardus</h3><p>Jaga tetap kering. Kertas yang terkena minyak atau sisa makanan mungkin tidak diterima di fasilitas daur ulang setempat.</p></article>
+          <article class="explore-card"><span class="explore-icon yellow-bg">◇</span><h3>Kemasan plastik</h3><p>Kosongkan dan bilas jika aman serta memungkinkan. Simbol resin tidak selalu menjamin kemasan diterima untuk didaur ulang.</p></article>
+          <article class="explore-card"><span class="explore-icon red-bg">!</span><h3>Baterai dan limbah B3</h3><p>Jangan dibongkar atau dibakar. Simpan dengan aman dan cari titik pengumpulan resmi.</p></article>
+        </div>
+        <div class="section-heading"><div><p class="eyebrow">REFERENSI WARNA</p><h2>Warna dan kategori</h2></div></div>
+        <div class="guide-list">
+          <div><span class="bin-dot green"></span><p><strong>Hijau · Organik</strong><small>Sisa buah, sayuran, dan sisa makanan yang sesuai aturan setempat.</small></p></div>
+          <div><span class="bin-dot blue"></span><p><strong>Biru · Kertas & kardus</strong><small>Kertas dan kardus bersih serta kering.</small></p></div>
+          <div><span class="bin-dot yellow"></span><p><strong>Kuning · Plastik, kaca, logam</strong><small>Pastikan jenis material diterima oleh layanan lokal.</small></p></div>
+          <div><span class="bin-dot red"></span><p><strong>Merah · Limbah berbahaya</strong><small>Baterai, bahan kimia rumah tangga, dan limbah berisiko.</small></p></div>
+          <div><span class="bin-dot grey"></span><p><strong>Abu-abu · Residu / campuran</strong><small>Material campuran atau yang tidak dapat dipilah dengan yakin.</small></p></div>
+        </div>
+        <p class="small-note">Pemetaan warna adalah panduan umum dari spesifikasi proyek. Sistem warna dan aturan penerimaan dapat berbeda di tiap daerah.</p>
+      </section>
+
+      <section class="screen" id="screen-profile" data-screen="profile">
+        <div class="page-heading"><p class="eyebrow">RUANG PRIBADI</p><h1>Profil & pengaturan</h1><p class="muted">Pantau langkah kecilmu menuju pemilahan yang lebih baik.</p></div>
+        <div class="stats-grid">
+          <article class="stat-card"><span>Total pindai</span><strong id="statScans">0</strong></article>
+          <article class="stat-card"><span>Disimpan</span><strong id="statSaved">0</strong></article>
+          <article class="stat-card"><span>Koreksi</span><strong id="statCorrections">0</strong></article>
+        </div>
+        <div class="settings-card">
+          <div class="setting-row"><div><strong>Mode gelap</strong><small>Tampilan lebih nyaman di lingkungan redup.</small></div><button class="switch" id="themeSwitch" role="switch" aria-checked="false" aria-label="Mode gelap"><span></span></button></div>
+          <div class="setting-row"><div><strong>Privasi foto</strong><small>Foto hanya dipakai selama sesi analisis di browser ini dan tidak disimpan ke riwayat kecuali sebagai pratinjau saat hasil disimpan.</small></div></div>
+          <button class="button danger-outline" id="clearHistoryBtn">Hapus semua riwayat</button>
+        </div>
+        <p class="small-note">Statistik dan riwayat disimpan di localStorage browser pada perangkat ini. Hindari menyimpan foto pribadi atau sensitif.</p>
+      </section>
+
+      <section class="screen" id="screen-camera" data-screen="camera">
+        <div class="page-heading"><p class="eyebrow">PEMINDAIAN</p><h1>Ambil foto objek</h1><p class="muted">Tempatkan satu benda di tengah bingkai.</p></div>
+        <div class="camera-frame">
+          <video id="cameraVideo" autoplay playsinline muted aria-label="Pratinjau kamera"></video>
+          <canvas id="captureCanvas" hidden></canvas>
+          <div class="camera-guide" aria-hidden="true"></div>
+          <div class="camera-placeholder" id="cameraPlaceholder"><span>▣</span><strong>Kamera belum aktif</strong><small>Izinkan akses kamera untuk mulai memindai.</small></div>
+        </div>
+        <p class="camera-error" id="cameraError" role="status"></p>
+        <div class="camera-controls"><button class="button secondary" id="cancelCameraBtn">Kembali</button><button class="button primary" id="captureBtn">Ambil Foto</button></div>
+      </section>
+
+      <section class="screen" id="screen-review" data-screen="review">
+        <div class="page-heading"><p class="eyebrow">PERIKSA FOTO</p><h1>Sudah terlihat jelas?</h1><p class="muted">Foto yang terang dan berisi satu objek membantu hasil yang lebih masuk akal.</p></div>
+        <div class="review-image-wrap"><img id="reviewImage" alt="Foto objek yang akan dianalisis"></div>
+        <div class="camera-controls"><button class="button secondary" id="retakeBtn">Ambil ulang</button><button class="button primary" id="analyzeBtn">Analisis objek</button></div>
+        <p class="small-note">Analisis pada versi ini adalah simulasi lokal berbasis nama file dan pilihan manual. Hasilnya perlu diperiksa.</p>
+      </section>
+
+      <section class="screen" id="screen-result" data-screen="result">
+        <div class="page-heading"><p class="eyebrow">HASIL PEMILAHAN</p><h1>Hasil analisis</h1><p class="muted">Gunakan sebagai panduan awal, bukan pengganti aturan setempat.</p></div>
+        <div id="resultContent"></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Navigasi utama">
+      <button class="nav-item active" data-go="scan" aria-current="page"><span>⌕</span><small>Pindai</small></button>
+      <button class="nav-item" data-go="history"><span>◷</span><small>Riwayat</small></button>
+      <button class="nav-item" data-go="explore"><span>▦</span><small>Jelajahi</small></button>
+      <button class="nav-item" data-go="profile"><span>◎</span><small>Profil</small></button>
+    </nav>
+  </div>
+
+  <dialog id="correctionDialog" class="modal">
+    <form method="dialog" id="correctionForm">
+      <div class="modal-heading"><div><p class="eyebrow">KOREKSI HASIL</p><h2>Mana yang lebih sesuai?</h2></div><button class="icon-button" value="cancel" aria-label="Tutup">×</button></div>
+      <p class="muted">Koreksi disimpan lokal untuk catatanmu, tidak dikirim ke server.</p>
+      <label for="correctionCategory">Kategori yang benar</label>
+      <select id="correctionCategory" required>
+        <option>Organic Waste</option><option>Paper & Cardboard</option><option>Plastic</option><option>Glass</option><option>Metal</option><option>E-Waste</option><option>Hazardous Waste</option><option>Textile</option><option>Rubber</option><option>Composite/Mixed</option><option>Medical Waste</option><option>Residual/Other</option>
+      </select>
+      <label for="correctionNote">Catatan (opsional)</label><textarea id="correctionNote" rows="3" placeholder="Misalnya, benda terbuat dari campuran plastik dan kertas."></textarea>
+      <button class="button primary full" id="submitCorrectionBtn" value="submit">Simpan koreksi</button>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
